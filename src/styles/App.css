@@ -27,6 +27,8 @@ html,body{
 
   background-color: #ddd;
 
+
+
 }
 /*image -- end*/
 
@@ -43,8 +45,24 @@ html,body{
 }
 /*controller --end*/
 
+.img-figure{
+  position: absolute;
 
 
+  width: 320px;
+  height: 360px;
+  margin: 0;
+  padding: 40px;
+  background-color: #fff;
+  box-sizing:border-box;  
+}
+.img-title{
+    margin: 20px 0 0 0;
 
-
+    color: #a7a0a2;
+    font-size: 16px;
+    }
+figcaption {
+  text-align: center;
+}
 
