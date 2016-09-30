@@ -2,6 +2,7 @@ require('normalize.css/normalize.css');
 require('styles/App.css');
 
 import React from 'react';
+//import ReactDOM from 'react-dom';
 
 //let yeomanImage = require('../images/yeoman.png');
 //获取图片相关数据
@@ -24,7 +25,7 @@ imageDatas = (function genImageURL(imageDatasArr){
 //获取区间内的一个随机值
 function getRangeRandom(low,high){
 	return Math.ceil(Math.random()*(high - low) + low);
-};
+}
 
 var ImgFigure = React.createClass({
 	render: function(){
@@ -37,7 +38,7 @@ var ImgFigure = React.createClass({
 		}
 
 		return(
-			<figure className="img-figure">
+			<figure className="img-figure" style={styleObj}>
 				<img src={this.props.data.imageURl} alt={this.props.data.title}/>
 				<figcaption>
 					<h2 className="img-title">{this.props.data.title}</h2>
@@ -53,7 +54,9 @@ var ImgFigure = React.createClass({
 
 class AppComponent extends React.Component {
 
-	Constant: {
+	constructor(props){
+		super(props);
+		this.Constant = {
 		centerPos: { //中心图片
 			left:0,
 			right:0
@@ -67,15 +70,28 @@ class AppComponent extends React.Component {
 			x:[0,0],
 			topY:[0,0]
 		}
-	},
+	};
+		this.state = {
+			imgsArrangeArr:[
+				// {
+				// 	pos:{
+				// 		left:'0',
+				// 		top:'0'
+				// 	}
+				// }
+			]
+		};
+	}
 
 
-	/*	
+	
+
+	/*
 	*重新布局所有图片
 	*@param centerIndex 指定居中排布哪个图片
 	*/
-	rearrange: function(centerIndex){
-		var imgsArrangeArr = this.stage.imgsArrangeArr,
+	rearrange(centerIndex){
+		var imgsArrangeArr = this.state.imgsArrangeArr,
 			Constant = this.Constant,
 			centerPos = Constant.centerPos,
 			hPosRange = Constant.hPosRange,
@@ -87,7 +103,8 @@ class AppComponent extends React.Component {
 			vPosRangeTopY = vPosRange.topY,
 
 			imgsArrangeTopArr = [],
-			topImgNum =Math.ceil(Math.random()*2),//上侧区域取一个或者不取	
+
+			topImgNum =Math.ceil(Math.random()*2),//上侧区域取一个或者不取
 			topImgSpliceIndex = 0,
 
 			imgsArrangeCenterArr = imgsArrangeArr.splice(centerIndex,1);
@@ -132,26 +149,26 @@ class AppComponent extends React.Component {
 				imgsArrangeArr: imgsArrangeArr
 			});
 			
-	},
+	}
 
-	getInitialState:function(){
-		return{
-			imgsArrangeArr: [
-				{
+	// getInitialState(){
+	// 	return{
+	// 		imgsArrangeArr: [
+	// 			{
 					
-					pos:{
-						left: '0',
-						top: '0'
-					}
-				}
-			]
-		};
-	},
+	// 				pos:{
+	// 					left: '0',
+	// 					top: '0'
+	// 				}
+	// 			}
+	// 		]
+	// 	};
+	// };
 
 
 
 	//初始化图片范围
-	componentDidMount:function(){
+	componentDidMount(){
 		//获取舞台大小
 		var stageDOM = React.findDOMNode(this.refs.stage),
 			stageW = stageDOM.scrollWidth,
@@ -187,7 +204,7 @@ class AppComponent extends React.Component {
 		this.Constant.vPosRange.x[1] = halfStageW;
 
 		this.rearrange(0);
-	},
+	}
   render() {
 
   	var controllerUnits = [],
@@ -202,7 +219,7 @@ class AppComponent extends React.Component {
   					top: 0
   				}
   			}
-  		};
+  		}
 
   		imgFigures.push(<ImgFigure data={value} ref={'imgFigure'+index} arrange={this.state.imgsArrangeArr[index]}/>);
   	}.bind(this));
